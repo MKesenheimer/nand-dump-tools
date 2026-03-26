@@ -1256,11 +1256,11 @@ def banner():
 
     print(
 """ _   _   ___   _   _______  ______                        ______                   _           \n"""
-"""| \ | | / _ \ | \ | |  _  \ |  _  \                       |  _  \                 | |          \n"""
-"""|  \| |/ /_\ \|  \| | | | | | | | |_   _ _ __ ___  _ __   | | | |___  ___ ___   __| | ___ _ __ \n"""
-"""| . ` ||  _  || . ` | | | | | | | | | | | '_ ` _ \| '_ \  | | | / _ \/ __/ _ \ / _` |/ _ \ '__|\n"""
-"""| |\  || | | || |\  | |/ /  | |/ /| |_| | | | | | | |_) | | |/ /  __/ (_| (_) | (_| |  __/ |   \n"""
-"""\_| \_/\_| |_/\_| \_/___/   |___/  \__,_|_| |_| |_| .__/  |___/ \___|\___\___/ \__,_|\___|_|   \n"""
+"""| \\ | | / _ \\ | \\ | |  _  \\ |  _  \\                       |  _  \\                 | |          \n"""
+"""|  \\| |/ /_\\ \\|  \\| | | | | | | | |_   _ _ __ ___  _ __   | | | |___  ___ ___   __| | ___ _ __ \n"""
+"""| . ` ||  _  || . ` | | | | | | | | | | | '_ ` _ \\| '_ \\  | | | / _ \\/ __/ _ \\ / _` |/ _ \\ '__|\n"""
+"""| |\\  || | | || |\\  | |/ /  | |/ /| |_| | | | | | | |_) | | |/ /  __/ (_| (_) | (_| |  __/ |   \n"""
+"""\\_| \\_/\\_| |_/\\_| \\_/___/   |___/  \\__,_|_| |_| |_| .__/  |___/ \\___|\\___\\___/ \\__,_|\\___|_|   \n"""
 """                                                  | |                                          \n"""
 """                                                  |_|                                          \n"""
 """NAND Dump Decoder v{0} by Matthias Deeg - SySS GmbH (c) 2018-2020\n---""".format(__version__))
@@ -1282,7 +1282,8 @@ if __name__ == '__main__':
 
     # init argument parser
     parser = argparse.ArgumentParser()
-    parser.add_argument('-i', '--infolder', type=str, help='Input folder with binary dump files (.bin)', required=True)
+    parser.add_argument('-I', '--infolder', type=str, help='Input folder with binary dump files (.bin)', required=False)
+    parser.add_argument('-i', '--infile', type=str, help='Input binary dump file (.bin)', required=False)
     parser.add_argument('-o', '--outfile', type=str, help='Output dump file', required=True)
     parser.add_argument('-c', '--config', type=str, help='Configuration file')
     parser.add_argument('-m', '--mode', type=str, help='Vendor specific NAND mode (ATMEL, NXP_IMX28, NXP_P1014, YAFFS2 [experimental])')
@@ -1297,13 +1298,15 @@ if __name__ == '__main__':
 
     # check if input folder contains binary dump files (.bin)
     input_files = []
-    for e in os.listdir(args.infolder):
-        if os.path.splitext(e)[1] == DUMP_FILE_EXTENSION:
-            input_files.append(os.path.normpath("{}/{}"
-                               .format(args.infolder, e)))
+    if args.infolder is not None:
+        for e in os.listdir(args.infolder):
+            if os.path.splitext(e)[1] == DUMP_FILE_EXTENSION:
+                input_files.append(os.path.normpath(f"{args.infolder}/{e}"))
+    elif args.infile is not None:
+        input_files.append(os.path.normpath(f"{args.infile}"))
 
     if len(input_files) == 0:
-        print("[-] The input folder does not contain any binary dump files (.bin)")
+        print("[-] Input required.")
 
     # only process process input files of the same size
     # the first binary file in the folder is our reference file
@@ -1373,9 +1376,14 @@ if __name__ == '__main__':
 
     else:
         # read configuration from given config file
-        if not os.path.isfile(args.config):
+        try:
+            if not os.path.isfile(args.config):
+              print("[-] Error: Config file '{}' does not exist".format(args.config))
+              sys.exit(1)
+        except:
             print("[-] Error: Config file '{}' does not exist".format(args.config))
             sys.exit(1)
+
 
         print("[*] Read configuration file '{}'".format(args.config))
         configfile = configparser.ConfigParser()

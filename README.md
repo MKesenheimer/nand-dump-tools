@@ -20,9 +20,18 @@ The NAND Dump Tools can be downloaded and installed in the following way:
 
 ```
 git clone https://github.com/SySS-Research/nand-dump-tools.git
-cd NAND_Dump_Tools
+cd nand-dump-tools
 ./setup.sh
 ```
+
+Note: NAND Dump Tools relies on `bchlib==0.7`, which in turn relies on `pyhon3.19.8`. Install `python3.19.8` for your operating system, after that execute:
+
+```
+python3.9 -m venv venv
+source venv/bin/activate
+pip install -r requirement.txt
+```
+
 
 ## Usage
 
