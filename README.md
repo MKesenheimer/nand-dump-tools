@@ -61,7 +61,7 @@ optional arguments:
                         Output dump file
   -c CONFIG, --config CONFIG
                         Configuration file
-  -m MODE, --mode MODE  Vendor specific NAND mode (ATMEL, NXP_IMX28
+  -m MODE, --mode MODE  Vendor specific NAND mode (ATMEL, NXP_IMX28, NXP_P1014, YAFFS2 [experimental])
   --atmel-config        Retrieve ATMEL config from first page of the dump file
   --nxp-fcb-config      Retrieve NXP config from firmware control block (FCB) of first page of the dump file
 ```
@@ -101,14 +101,14 @@ The configuration of the ATMEL target system is read from the dump itself (PMECC
 
 ```
 $ ./nand_dump_decoder.sh -i ~/dump/SAMA5D4/dump1 -o sama.bin --atmel-config
- _   _   ___   _   _______  ______                        ______                   _                                                                                                                                
-| \ | | / _ \ | \ | |  _  \ |  _  \                       |  _  \                 | |                                                                                                                               
-|  \| |/ /_\ \|  \| | | | | | | | |_   _ _ __ ___  _ __   | | | |___  ___ ___   __| | ___ _ __                                                                                                                      
-| . ` ||  _  || . ` | | | | | | | | | | | '_ ` _ \| '_ \  | | | / _ \/ __/ _ \ / _` |/ _ \ '__|                                                                                                                     
-| |\  || | | || |\  | |/ /  | |/ /| |_| | | | | | | |_) | | |/ /  __/ (_| (_) | (_| |  __/ |                                                                                                                        
-\_| \_/\_| |_/\_| \_/___/   |___/  \__,_|_| |_| |_| .__/  |___/ \___|\___\___/ \__,_|\___|_|                                                                                                                        
-                                                  | |                                                                                                                                                               
-                                                  |_|                                                                                                                                                               
+ _   _   ___   _   _______  ______                        ______                   _        
+| \ | | / _ \ | \ | |  _  \ |  _  \                       |  _  \                 | |       
+|  \| |/ /_\ \|  \| | | | | | | | |_   _ _ __ ___  _ __   | | | |___  ___ ___   __| | ___ _ __ 
+| . ` ||  _  || . ` | | | | | | | | | | | '_ ` _ \| '_ \  | | | / _ \/ __/ _ \ / _` |/ _ \ '__|
+| |\  || | | || |\  | |/ /  | |/ /| |_| | | | | | | |_) | | |/ /  __/ (_| (_) | (_| |  __/ |
+\_| \_/\_| |_/\_| \_/___/   |___/  \__,_|_| |_| |_| .__/  |___/ \___|\___\___/ \__,_|\___|_|
+                                                  | |                                       
+                                                  |_|                                       
 NAND Dump Decoder v0.2 by Matthias Deeg - SySS GmbH (c) 2018-2020                                        
 ---                                                 
 [*] Found one binary input file (566231040 bytes)                                                        
